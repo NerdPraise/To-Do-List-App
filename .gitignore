@@ -1,0 +1,5 @@
+/.idea
+*.so
+.Python
+/__pycache__
+db.sqlite3

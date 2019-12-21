@@ -8,32 +8,83 @@
     <div class="row mt-4">
         <div class="col">
             <h2> Add Item </h2>
-            <form class="form-inline" action="/add_todo" method="post">
+            <form class="" action="/add_todo" method="post">
                 {% csrf_token %}
-                <input type="text" name="content" class="form-control mb-2 mr-sm-2" placeholder="type here....">
+                <div class="form-row">
+
+                     <input type="text" id="content" name="content" class="form-control mb-2 mr-sm-2" style="width:100%" placeholder="What do you want to do....." required>
+                    <div class="col">
+                        DUE DATE
+                        <input type="date" class="form-control mb-2 mr-sm-2" name = "date" required >
+                    </div>
+                    <div class="col">
+                        CATEGORY
+                        <select class="form-control" name="category" required>
+                            <option>Select Category</option>
+                            {% for category in categories %}
+                            <option value="{{category}}" name="{{category}}">{{category}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary mb-2">Submit</button>
             </form>
         </div>
     </div>
 
 
-    <div class="row mt-4">
+    <div class="row mt-4 row-cols-2">
         <div class="col">
             <ul class="list-group">
+                <h3>Recent Tasks</h3>
                 {% for todo in todo_items %}
-                <li class="list-group-item">{{ todo.text }}
-                    <div class="float-right">
-                        <form action="delete_todo/{{todo.id}}" method="post">
-                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">
+                            <span class="text-muted"><strong>{{ todo.todo_text }}</strong></span>
+                        </div>
+                        <div class="col">
+                              <span class="category category-{{todo.category_name}} float-right">{{todo.category_name | upper}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col date">
+                            <i class="fas fa-calendar-alt" style="color:grey;"></i>
+                            <span>{{ todo.created }} - {{todo.due_date}} </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                           <form action="delete_todo/{{todo.id}}" method="post">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                           </form>
+                        </div>
+                        <div class="col">
+                           <form  action="completed_todo/{{todo.id}}" method="post">
+                             <button type="submit"  class="btn btn-sm btn-primary">Complete</button>
                         </form>
+                        </div>
                     </div>
                 </li>
                 {% endfor %}
             </ul>
-
         </div>
-
-
+        <div class="col">
+            <h3> Completed tasks 😎</h3>
+            {% if  completelist %}
+            {% for complete in completelist %}
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <i class="fas fa-check" style="color: #51cf66;"></i>
+                    {{complete.completed_text}}
+                    <div class="float-right category category-{{complete.category_name}}">{{complete.category_name}}</div>
+                </li>
+            </ul>
+            {% endfor %}
+            {% else %}
+            <h6>You haven't completed any task today</h6>
+            {% endif %}
+        </div>
     </div>
 
 {% endblock content %}

@@ -1,0 +1,35 @@
+.category{
+    display: inline-block;
+    padding:10px;
+    border-radius:5px;
+    color:white;
+    text-align: center;
+    width: 75px;
+    font-size:12px;
+
+}
+.category-Others {
+    background-color:red;
+}
+.category-Work {
+    background-color:blue;
+}
+.category-Home {
+    background-color:green;
+}
+.category-General {
+    background-color:grey;
+}
+.category-School {
+    background-color:yellow;
+}
+.category-Personal {
+    background-color:purple;
+}
+.date{
+    text-transform:uppercase;
+    font-size:10px;
+    color: #95a5a6;
+    font-weight:bold;
+
+}

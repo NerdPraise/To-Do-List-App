@@ -1,92 +1,115 @@
 {% extends "base.html" %}
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body >
 {% block content %}
-    <div class="row mt-4">
-        <div class="col">
-            <h2> Add Item </h2>
-            <form class="" action="/add_todo" method="post">
-                {% csrf_token %}
-                <div class="form-row">
+    <div class="w3-sidebar w3-bar-block" style="width:23%; background-color:#084a46">
+        <div class="w3-center w3-margin">
+            <img class="rounded-circle" src="{% static 'images/img.png' %}" style="width:200px" alt="profile">
+            <h3 style="color:#ccc">Ajayi Praise</h3>
+        </div>
+    </div>
 
-                     <input type="text" id="content" name="content" class="form-control mb-2 mr-sm-2" style="width:100%" placeholder="What do you want to do....." required>
-                    <div class="col">
-                        DUE DATE
-                        <input type="date" class="form-control mb-2 mr-sm-2" name = "date" required >
-                    </div>
-                    <div class="col">
-                        CATEGORY
-                        <select class="form-control" name="category" required>
-                            <option>Select Category</option>
-                            {% for category in categories %}
-                            <option value="{{category}}" name="{{category}}">{{category}}</option>
+<!-- Page Content -->
+    <div class="w3-container w3-padding" style="margin-left:23%; background-color:#f4f4f4;">
+        <div class="w3-container">
+            <div>
+                <div class="w3-half">
+                    <h1 style="display: inline;">To Do List</h1>
+                </div>
+                <div class="w3-half">
+                    <span style="float:right"> <strong>{{current_date}}</strong></span>
+                </div>
+
+            </div>
+
+            <div class="the-thirds" style="clear:both;">
+                <hr style="border: 1px solid #969696;">
+                <div class="w3-third w3-padding" >
+                    <div class="Do w3-white w3-border w3-border-white w3-round-xlarge w3-padding" style="height:500px; color:#212529!important;">
+                        <div>
+                            <h2 style="display:inline;">DO</h2>
+                            <a style="display:inline;" class="w3-right" onclick="document.getElementById('id01').style.display='block'"><i class="fas fa-plus"></i></a>
+
+                        </div>
+                        <div id="id01" class="w3-modal">
+                            <div class="w3-modal-content w3-animate-zoom" style="max-width:300px; border-radius:15px;">
+                                <div class="w3-teal w3-padding-small">
+                                    <h2>Add to List</h2>
+                                </div>
+                                <div class="w3-container">
+                                    <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+                                    <form class="" action="/add_todo" method="post">
+                                        {% csrf_token %}
+                                        <div class="w3-margin">
+                                            <input type="text" id="content" name="content" class="form-control mb-2 mr-sm-2"  placeholder="What do you want to do....." required>
+                                            <label>DUE DATE</label>
+                                            <input type="date" class=form-control mb-2 mr-sm-2" name="date" required>
+                                            <label>CATEGORY</label>
+                                            <select class="form-control" name="category" class="w3-input mb-2 mr-sm-2"  required>
+                                                <option>Select Category</option>
+                                                {% for category in categories %}
+                                                <option value="{{category}}" name="{{category}}">{{category}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <button type="submit" class="btn btn-primary mt-2 mb-2">Submit</button>
+                                        </div>
+                                    </form>
+                            </div>
+                          </div>
+                        </div>
+                        <hr style="border: 1px solid #505050; clear:both;">
+                        <ul style="padding:0; margin:0;">
+                            {% for todo in todo_items %}
+                            <div class="category category-{{todo.category_name}}">
+                                <li><strong>{{todo.todo_text}}</strong>
+                                    <i class="fas fa-trash-alt w3-right" style="color:grey; display:inline;"></i>
+                                </li>
+                                <span style="display:inline;" class="date">
+                                    <i class="fas fa-calendar-alt" style="color:grey;"></i>
+                                    {{ todo.created }}
+
+                                </span>
+
+
+                            </div>
                             {% endfor %}
-                        </select>
+                        </ul>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary mb-2">Submit</button>
-            </form>
+                 <div class="w3-third w3-padding">
+                    <div class="Do w3-white w3-border w3-border-white w3-round-xlarge w3-padding" style="height:500px; color:#212529!important;">
+                        <h2 stle="color:#212529;">DONE</h2>
+                        <hr style="border: 1px solid #505050;">
+                        <ul style="padding:0; margin:0;">
+                            {% if  completelist %}
+                            {% for complete in completelist %}
+                           <div class="category category-{{complete.category_name}}">
+                               <li><strong>{{complete.completed_text}}</strong> <i class="fas fa-check" style="color: #51cf66;"></i> </li>
+                            </div>
+                        </ul>
+                            {% endfor %}
+                            {% else %}
+                            <h6>You haven't completed any task today</h6>
+                            {% endif %}
+
+                    </div>
+                </div>
+                 <div class="w3-third w3-padding">
+                    <div class="Do w3-border w3-white w3-border-white w3-round-xlarge w3-padding" style="height:500px; color:#212529!important;">
+                        <h2 >MEMO</h2>
+                        <hr style="border: 1px solid #505050;">
+                        <ul style="padding:0; margin:0;">
+                            <li class="category category-Work" >thehehehhdhhdhdhdhb ehee </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-
-    <div class="row mt-4 row-cols-2">
-        <div class="col">
-            <ul class="list-group">
-                <h3>Recent Tasks</h3>
-                {% for todo in todo_items %}
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col">
-                            <span class="text-muted"><strong>{{ todo.todo_text }}</strong></span>
-                        </div>
-                        <div class="col">
-                              <span class="category category-{{todo.category_name}} float-right">{{todo.category_name | upper}}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col date">
-                            <i class="fas fa-calendar-alt" style="color:grey;"></i>
-                            <span>{{ todo.created }} - {{todo.due_date}} </span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                           <form action="delete_todo/{{todo.id}}" method="post">
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                           </form>
-                        </div>
-                        <div class="col">
-                           <form  action="completed_todo/{{todo.id}}" method="post">
-                             <button type="submit"  class="btn btn-sm btn-primary">Complete</button>
-                        </form>
-                        </div>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="col">
-            <h3> Completed tasks 😎</h3>
-            {% if  completelist %}
-            {% for complete in completelist %}
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <i class="fas fa-check" style="color: #51cf66;"></i>
-                    {{complete.completed_text}}
-                    <div class="float-right category category-{{complete.category_name}}">{{complete.category_name}}</div>
-                </li>
-            </ul>
-            {% endfor %}
-            {% else %}
-            <h6>You haven't completed any task today</h6>
-            {% endif %}
-        </div>
-    </div>
-
 {% endblock content %}
 </body>
 </html>

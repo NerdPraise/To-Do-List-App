@@ -12,8 +12,8 @@ class Category(models.Model):
         return self.category_name
 
 class Todo(models.Model):
-    created = models.DateTimeField(default=timezone.now().strftime("%d-%m-%Y"))
-    due_date = models.DateTimeField(default=timezone.now().strftime("%d-%m-%Y"))
+    created = models.DateTimeField()
+    due_date = models.DateTimeField()
     todo_text = models.CharField(max_length=200)
     category_name = models.ForeignKey(Category, on_delete=models.CASCADE)
 
@@ -22,9 +22,10 @@ class Todo(models.Model):
     def __str__(self):
        return self.todo_text
 
+
+
 class CompletedList(models.Model):
     completed_text = models.CharField(max_length=200)
     category_name = models.ForeignKey(Category, on_delete=models.CASCADE)
     def __str__(self):
         return self.completed_text
-

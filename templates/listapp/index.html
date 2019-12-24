@@ -6,16 +6,30 @@
 </head>
 <body >
 {% block content %}
-    <div class="w3-sidebar w3-bar-block" style="width:23%; background-color:#084a46">
+    <nav class="w3-sidebar w3-collapse w3-top w3-large w3-padding w3-animate-left" style="z-index:3; background-color:#084a46; width:270px;font-weight:bold;" id="mySidebar">
+    <br>
+      <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+      <div class="w3-bar-block">
         <div class="w3-center w3-margin">
-            <img class="rounded-circle" src="{% static 'images/img.png' %}" style="width:200px" alt="profile">
+            <img class="rounded-circle" src="{% static 'images/img.png' %}" width="90%" alt="profile">
             <h3 style="color:#ccc">Ajayi Praise</h3>
         </div>
+      </div>
+    </nav>
+
+<!-- Top menu on small screens -->
+    <header class="w3-container w3-top w3-hide-large w3-padding" style="background-color:#084a46;">
+      <a href="javascript:void(0)" class="w3-button w3-margin-right" onclick="w3_open()">☰</a>
+    </header>
+    <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+    <div class="w3-hide-large">
+        <br><br><br>
     </div>
 
 <!-- Page Content -->
-    <div class="w3-container w3-padding" style="margin-left:23%; background-color:#f4f4f4;">
-        <div class="w3-container">
+    <div class="w3-main w3-container w3-padding-small " style="margin-left:300px; background-color:#f4f4f4;">
+        <div class="">
             <div>
                 <div class="w3-half">
                     <h1 style="display: inline;">To Do List</h1>
@@ -28,7 +42,7 @@
 
             <div class="the-thirds" style="clear:both;">
                 <hr style="border: 1px solid #969696;">
-                <div class="w3-third w3-padding" >
+                <div class="w3-third w3-padding-small" >
                     <div class="Do w3-white w3-border w3-border-white w3-round-xlarge w3-padding" style="height:500px; color:#212529!important;">
                         <div>
                             <h2 style="display:inline;">DO</h2>
@@ -66,7 +80,9 @@
                             {% for todo in todo_items %}
                             <div class="category category-{{todo.category_name}}">
                                 <li><strong>{{todo.todo_text}}</strong>
-                                    <i class="fas fa-trash-alt w3-right" style="color:grey; display:inline;"></i>
+                                    <form method="post" action="delete_todo/{{todo.id}}" style="display:inline;">
+                                        <button type="submit" class="category-{{todo.category_name}} btns w3-right"><i class="fas fa-trash-alt" style="color:grey; display:inline;"></i></button>
+                                    </form>
                                 </li>
                                 <span style="display:inline;" class="date">
                                     <i class="fas fa-calendar-alt" style="color:grey;"></i>
@@ -80,7 +96,7 @@
                         </ul>
                     </div>
                 </div>
-                 <div class="w3-third w3-padding">
+                 <div class="w3-third w3-padding-small">
                     <div class="Do w3-white w3-border w3-border-white w3-round-xlarge w3-padding" style="height:500px; color:#212529!important;">
                         <h2 stle="color:#212529;">DONE</h2>
                         <hr style="border: 1px solid #505050;">
@@ -98,7 +114,7 @@
 
                     </div>
                 </div>
-                 <div class="w3-third w3-padding">
+                 <div class="w3-third w3-padding-small">
                     <div class="Do w3-border w3-white w3-border-white w3-round-xlarge w3-padding" style="height:500px; color:#212529!important;">
                         <h2 >MEMO</h2>
                         <hr style="border: 1px solid #505050;">

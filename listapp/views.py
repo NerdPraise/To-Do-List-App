@@ -31,7 +31,7 @@ def add_todo(request):
 @csrf_exempt
 def delete_todo(request, todo_id):
     item = Todo.objects.get(pk=todo_id)
-    print(item.due_date)
+    item.delete()
     return HttpResponseRedirect("/")
 
 @csrf_exempt

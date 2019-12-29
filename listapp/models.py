@@ -1,7 +1,12 @@
 from django.db import models
-from django.utils import timezone
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
+class User(AbstractUser):
+    pass
+
 class Category(models.Model):
     category_name = models.CharField(max_length=200)
 
@@ -12,19 +17,19 @@ class Category(models.Model):
         return self.category_name
 
 class Todo(models.Model):
-    created = models.DateTimeField()
-    due_date = models.DateTimeField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created = models.DateField()
+    due_date = models.DateField()
     todo_text = models.CharField(max_length=200)
     category_name = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["-created"] #orders the the listing of the objects
     def __str__(self):
-       return self.todo_text
-
-
+       return self.user.username
 
 class CompletedList(models.Model):
+    #user=models.ForeignKey(User, on_delete=models.CASCADE)
     completed_text = models.CharField(max_length=200)
     category_name = models.ForeignKey(Category, on_delete=models.CASCADE)
     def __str__(self):

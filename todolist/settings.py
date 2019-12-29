@@ -116,11 +116,15 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+AUTH_USER_MODEL = "listapp.User"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
 STATICFILES_DIR = os.path.join(BASE_DIR, "static")
+
+LOGIN_URL="login"
+LOGOUT_URL="logout"
+LOGIN_REDIRECT_URL="/"
 
 django_heroku.settings(locals())

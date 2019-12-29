@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+
+    {% if form.errors %}
+    <p>There is an error</p>
+    {%endif%}
+    {% if next %}
+    <p> Can't access</p>
+    {%endif%}
+<form method="post" action="{%url 'login'%}">
+    {%csrf_token%}
+    {% for field in form %}
+    <p>{{field.label_tag}} {{field}}</p>
+    {%endfor%}
+    <input type="submit" value="Login">
+    <input type="hidden" name="next" value="{{next}}">
+</form>
+</body>
+</html>

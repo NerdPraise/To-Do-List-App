@@ -1,20 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body >
+
 {% block content %}
 {%  if user.is_authenticated %}
+<head>
+    <meta charset="UTF-8">
+    <title>{{user.username | title}} | To do List</title>
+</head>
 
+<body>
     <nav class="w3-sidebar w3-collapse w3-top w3-large w3-padding w3-animate-left" style="z-index:3; background-color:#084a46; width:270px;font-weight:bold;" id="mySidebar">
         <br>
         <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%; font-size:22px">Close Menu</a>
         <div class="w3-bar-block">
             <div class="w3-center w3-margin">
-                <img class="rounded-circle" src="{% static 'images/img.png' %}" width="90%" alt="profile">
+                <img class="rounded-circle" src="{{user.userprofile.avatar.url}}" width="90%" alt="profile">
                 <h4 style="color:#ccc">{{user.username | title}}</h4>
+                <h5><a href="/logout">Log out </a></h5>
             </div>
         </div>
     </nav>
@@ -137,7 +139,20 @@
         </div>
     </div>
 {%else%}
-<p>please Login</p>
+    <div>
+        <div class="w3-half w3-sidebar" style="background-color:#084a46;">
+            <div class="w3-center ">
+                <h1 style="padding-top:120px;font-family:Poppins-Regular; font-size:100px;">To Do List</h1>
+                <h1 style="padding-bottom:30px;font-family:Poppins-Regular;  font-size:100px;">App</h1>
+                <p style="padding-bottom:30px;  font-size:54px; font-family:High-Tide;">Keep your todo actions in check</p>
+                <a href="/login"><button class="w3-orange category-General w3-btn categorys">Try it</button></a>
+            </div>
+        </div>
+        <div class="w3-main w3-right w3-hide-small w3-half" style="height:100%;">
+
+        </div>
+        <p>please Login</p>
+    </div>
 {%endif%}
 {% endblock content %}
 </body>

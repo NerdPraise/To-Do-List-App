@@ -7,6 +7,12 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     pass
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to="images/avatar")
+    def __str__(self):
+        return self.user.username
+
 class Category(models.Model):
     category_name = models.CharField(max_length=200)
 
@@ -34,3 +40,9 @@ class CompletedList(models.Model):
     category_name = models.ForeignKey(Category, on_delete=models.CASCADE)
     def __str__(self):
         return self.completed_text
+
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+    instance.userprofile.save()

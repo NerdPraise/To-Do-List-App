@@ -2,4 +2,7 @@
 *.so
 .Python
 /__pycache__
+/listapp/migrations/__pycache__
+/listapp/__pycache__
+
 db.sqlite3

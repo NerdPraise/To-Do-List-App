@@ -48,7 +48,14 @@
     padding: .375rem .45rem
 }
 
-
+@font-face {
+  font-family: Poppins-Regular;
+  src: url('../fonts/poppins/Poppins-Regular.ttf');
+}
+@font-face {
+  font-family: High-Tide;
+  src: url('../fonts/poppins/High Tide.ttf');
+}
 
 
 

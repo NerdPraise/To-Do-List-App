@@ -47,7 +47,9 @@ def register(request):
     form = SignUpForm(request.POST)
     if request.POST:
         if form.is_valid():
-            form.save()
+            user = form.save()
+            user.refresh_from_db()
+            user.save()
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password1"]
             user = authenticate(username=username, password=password)
@@ -61,8 +63,6 @@ def register(request):
 class Login(views.LoginView):
     redirect_field_name = "home"
 
-class Logout(views.LogoutView):
-    template_name = "registration/logout.html"
-
-
+def logout(request):
+    return views.logout_then_login(request)
 

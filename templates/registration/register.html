@@ -19,7 +19,7 @@
                 <div class="card-heading"></div>
                 <div class="card-body">
                     <h2 class="title">Registration Info</h2>
-                    <form method="POST" action="{% url 'register'%}">
+                    <form enctype="multipart/form-data" method="POST" action="{% url 'register'%}">
                         {% csrf_token %}
                         {%for field in form%}
                         <div class="input-group">

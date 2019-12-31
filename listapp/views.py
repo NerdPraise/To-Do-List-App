@@ -44,11 +44,12 @@ def completed_todo(request, todo_id):
     return HttpResponseRedirect("/")
 
 def register(request):
-    form = SignUpForm(request.POST)
+    form = SignUpForm(request.POST, request.FILES)
     if request.POST:
         if form.is_valid():
             user = form.save()
             user.refresh_from_db()
+            user.userprofile.avatar = form.cleaned_data["image"]
             user.save()
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password1"]

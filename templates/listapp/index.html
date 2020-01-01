@@ -15,7 +15,7 @@
         <div class="w3-bar-block">
             <div class="w3-center w3-margin">
                 <img class="rounded-circle" src="{{user.userprofile.avatar.url}}" width="90%" alt="profile">
-                <h4 style="color:#ccc">{{user.username | title}}</h4>
+                <h4 style="color:#ccc">Welcome, {{user.username | title}}</h4>
                 <h5><a href="/logout">Log out </a></h5>
             </div>
         </div>
@@ -66,9 +66,8 @@
                                             <input type="text" id="content" name="content" class="form-control mb-2 mr-sm-2"  placeholder="What do you want to do....." required>
                                             <label>DUE DATE</label>
                                             <input type="date" class=form-control mb-2 mr-sm-2" name="date" required>
-                                            <label>CATEGORY</label>
-                                            <select class="form-control" name="category" class="w3-input mb-2 mr-sm-2"  required>
-                                                <option>Select Category</option>
+                                            <label>Select Category</label>
+                                            <select class="form-control" name="category" class="w3-input mb-2 mr-sm-2" required>
                                                 {% for category in categories %}
                                                 <option value="{{category}}" name="{{category}}">{{category}}</option>
                                                 {% endfor %}
@@ -86,6 +85,9 @@
                                 <li><strong>{{todo.todo_text}}</strong>
                                     <form method="post" action="delete_todo/{{todo.id}}" style="display:inline;">
                                         <button type="submit" class="category-{{todo.category_name}} btns w3-right"><i class="fas fa-trash-alt" style="color:grey; display:inline;"></i></button>
+                                    </form>
+                                    <form method="post" action="completed_todo/{{todo.id}}" style="display:inline;">
+                                        <button type="submit" class="category-{{todo.category_name}} btns w3-right"><i class="fas fa-check" style="color:green; display:inline;"></i></button>
                                     </form>
                                 </li>
                                 <span style="display:inline;" class="date">
@@ -105,8 +107,8 @@
                         <h2 stle="color:#212529;">DONE</h2>
                         <hr style="border: 1px solid #505050;">
                         <ul style="padding:0; margin:0;">
-                            {% if  completelist %}
-                            {% for complete in completelist %}
+                            {% if  user.completedlist_set.all %}
+                            {% for complete in user.completedlist_set.all %}
                            <div class="category category-{{complete.category_name}}">
                                <li><strong>{{complete.completed_text}}</strong> <i class="fas fa-check" style="color: #51cf66;"></i> </li>
                             </div>
@@ -123,7 +125,11 @@
                         <h2 >MEMO</h2>
                         <hr style="border: 1px solid #505050;">
                         <ul style="padding:0; margin:0;">
-                            <li class="category category-Work" >thehehehhdhhdhdhdhb ehee </li>
+                            <form method="post" action="{% url 'memo'%}">
+                                {%csrf_token%}
+                                <textarea rows="15" cols="40" name="memo" class="textarea">{{user.userprofile.memo}}</textarea>
+                                <input type="submit" value="Submit">
+                            </form>
                         </ul>
                     </div>
                 </div>
@@ -140,7 +146,7 @@
     </div>
 {%else%}
     <div>
-        <div class="w3-half w3-sidebar" style="background-color:#084a46;">
+        <div class="w3-half w3-sidebar" style="background-color:#084a46; ">
             <div class="w3-center ">
                 <h1 style="padding-top:120px;font-family:Poppins-Regular; font-size:100px;">To Do List</h1>
                 <h1 style="padding-bottom:30px;font-family:Poppins-Regular;  font-size:100px;">App</h1>
@@ -148,8 +154,8 @@
                 <a href="/login"><button class="w3-orange category-General w3-btn categorys">Try it</button></a>
             </div>
         </div>
-        <div class="w3-main w3-right w3-hide-small w3-half" style="height:100%;">
-
+        <div class="w3-main w3-right w3-orange w3-hide-small w3-half" style="height:100%; position:fixed; right:0;">
+            <p></p>
         </div>
         <p>please Login</p>
     </div>

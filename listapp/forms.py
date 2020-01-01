@@ -1,5 +1,6 @@
 from django import forms
 from listapp.models import User
+from PIL import Image
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 from django.core.files.images import get_image_dimensions
@@ -14,6 +15,8 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ("username","email", "password1", "password2", "image")
+
+
     def clean_avatar(self):
         avatar = cleaned_data["image"]
 
@@ -24,6 +27,7 @@ class SignUpForm(UserCreationForm):
             if len(avatar) > (20 * 1024):
                 raise forms.ValidationError(u'Avatar file size may not exceed 20k.')
         except AttributeError:
+
             pass
         return avatar
 

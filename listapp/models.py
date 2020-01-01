@@ -10,6 +10,7 @@ class User(AbstractUser):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to="images/avatar")
+    memo = models.TextField(max_length=12000)
     def __str__(self):
         return self.user.username
 
@@ -35,7 +36,7 @@ class Todo(models.Model):
        return self.user.username
 
 class CompletedList(models.Model):
-    #user=models.ForeignKey(User, on_delete=models.CASCADE)
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
     completed_text = models.CharField(max_length=200)
     category_name = models.ForeignKey(Category, on_delete=models.CASCADE)
     def __str__(self):

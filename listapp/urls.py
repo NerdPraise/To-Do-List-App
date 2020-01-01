@@ -10,4 +10,6 @@ urlpatterns=[
     path("register", views.register, name="register"),
     path("logout", views.logout, name="logout"),
     path("login", views.Login.as_view(authentication_form=UserSignForm), name="login"),
+    path("save_memo", views.save_memo, name="memo"),
+
 ]

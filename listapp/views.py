@@ -12,14 +12,21 @@ def home(request):
     current_date = timezone.now()
     user_items = User.objects.all()
     categories = Category.objects.all().order_by("category_name")
-    complete_list = CompletedList.objects.all()
     context = {
             "current_date": current_date,
             "user_items": user_items,
             "categories" : categories,
-            "complete_list": complete_list, #change the template context in html from completelist to complete_list
         }
     return render(request, "listapp/index.html", context)
+
+def save_memo(request):
+    user = request.user
+    if request.POST:
+        memo = request.POST["memo"]
+        user.userprofile.memo = memo
+        user.save()
+    return redirect("/")
+
 
 def add_todo(request):
     current_date = timezone.now()
@@ -39,7 +46,8 @@ def delete_todo(request, todo_id):
 @csrf_exempt
 def completed_todo(request, todo_id):
     item = Todo.objects.get(pk=todo_id)
-    CompletedList.objects.create(completed_text=item.todo_text, category_name=item.category_name)
+    user = request.user
+    user.completedlist_set.create(completed_text=item.todo_text, category_name=item.category_name)
     item.delete()
     return HttpResponseRedirect("/")
 
@@ -57,7 +65,7 @@ def register(request):
             login(request, user)
             return redirect("home")
     else:
-        form =SignUpForm()
+        form = SignUpForm()
     context = {"form":form}
     return render(request, "registration/register.html", context)
 
